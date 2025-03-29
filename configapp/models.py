@@ -6,17 +6,6 @@ class Actors(models.Model):
     name = models.CharField(max_length=50)
     birth_date = models.DateField()
 
-    def save(self, **kwargs):
-        if not self.slug:
-            one_slug=slugify(self.name)
-            slug=one_slug
-            count=0
-            while Actors.objects.filters(slug=slug).exists():
-                slug=f"{slug}-{count}"
-                count +=1
-                self.slug=slug
-        super().save(**kwargs)
-
     def __str__(self):
         return self.name
 
@@ -42,3 +31,4 @@ class Movie(models.Model):
     def __str__(self):
         return self.title
 
+#

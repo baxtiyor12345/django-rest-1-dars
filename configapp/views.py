@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from .models import *
 from .serializer import *
 
+
 @api_view(["GET", "POST"])
 def movie_api(request):
     if request.method=="GET":
@@ -42,7 +43,7 @@ def movie_detail_view(request,slug):
     try:
         movie=Movie.objects.get(slug=slug)
     except Movie.DoesNotExist:
-        response["error"]=False
+        response["error"]="bunday malumot yuq"
         return Response(data=response, status=status.HTTP_417_EXPECTATION_FAILED)
     if request.method=="GET":
         serializer=MovieSerializer(movie)
@@ -63,9 +64,16 @@ def movie_detail_view(request,slug):
             return Response(data=response, status=status.HTTP_201_CREATED)
         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     elif request.method == "DELETE":
+        id=movie.pk
         movie.delete()
-        response["message"] = "Movie successfully deleted"
-        return Response(data=response, status=status.HTTP_204_NO_CONTENT)
+        # response["message"] = "Movie successfully deleted"
+        return Response(data={"id":f"{id} o`chirildi"})
+
+@api_view(["POST"])
+def ism_api(request):
+    ism=request.data["ism"]
+    return Response(data={"ism": f"salom {ism}"})
+
 
 
 
